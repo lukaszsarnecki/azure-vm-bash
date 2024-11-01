@@ -34,3 +34,45 @@ az group create --name $RESOURCE_GROUP --location $LOCATION
 az network vnet create --resource-group $RESOURCE_GROUP --name "${VM_NAME}VNet" --subnet-name "${VM_NAME}Subnet"
 ```
 ## Krok 5: Utwórz interfejs sieciowy (NIC)
+```bash
+az network nic create \
+  --resource-group $RESOURCE_GROUP \
+  --vnet-name "${VM_NAME}VNet" \
+  --subnet "${VM_NAME}Subnet" \
+  --name "${VM_NAME}NIC"
+```
+## Krok 6: Utwórz maszynę wirtualną
+### Dla VM z systemem Linux (z kluczem SSH)
+Jeśli tworzysz maszynę Linux, użyj klucza SSH:
+```bash
+az vm create \
+  --resource-group $RESOURCE_GROUP \
+  --name $VM_NAME \
+  --nics "${VM_NAME}NIC" \
+  --image $VM_IMAGE \
+  --size $VM_SIZE \
+  --admin-username $ADMIN_USERNAME \
+  --ssh-key-value $SSH_KEY_PATH
+```
+### Dla VM z systemem Windows (z hasłem)
+Jeśli tworzysz maszynę Windows, użyj hasła:
+```bash
+az vm create \
+  --resource-group $RESOURCE_GROUP \
+  --name $VM_NAME \
+  --nics "${VM_NAME}NIC" \
+  --image "Win2019Datacenter" \
+  --size $VM_SIZE \
+  --admin-username $ADMIN_USERNAME \
+  --admin-password $ADMIN_PASSWORD
+```
+## Krok 7: Otwórz porty (np. 22 dla SSH lub 3389 dla RDP)
+Aby uzyskać dostęp do maszyny, możesz otworzyć odpowiednie porty:
+### Dla VM Linux (port SSH)
+```bash
+az vm open-port --port 22 --resource-group $RESOURCE_GROUP --name $VM_NAME
+```
+### Dla VM Windows (port RDP)
+```bash
+az vm open-port --port 3389 --resource-group $RESOURCE_GROUP --name $VM_NAME
+```
