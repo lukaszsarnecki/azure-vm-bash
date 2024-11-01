@@ -18,7 +18,7 @@ az login --use-device-code
 Najpierw zdefiniujmy zmienne, które będziemy używać w dalszej części skryptu. Dzięki temu łatwiej będzie zmieniać parametry maszyny.
 ```bash
 RESOURCE_GROUP="myResourceGroup"
-LOCATION="westeurope"
+LOCATION="westeurope" # Listę lokalizacji można wyświetlić komendą: az account list-locations
 VM_NAME="myVM"
 VM_IMAGE="UbuntuLTS"   # Możesz zmienić na inny obraz, np. "Win2019Datacenter, listę obrazów można sprawdzić komendą: az vm image list"
 VM_SIZE="Standard_B1s" # Inny rozmiar np. "Standard_DS1_v2" listę rozmiarów można sprawdzić komedną: az vm list-sizes --location "westeurope" 
