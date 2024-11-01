@@ -11,7 +11,7 @@ Jeśli pracujesz na serwerze, gdzie nie ma interfejsu graficznego, użyj:
 ```bash
 az login --use-device-code
 ```
-## Ustawienie zmiennych
+## Krok 2: Ustawienie zmiennych
 
 Najpierw zdefiniujmy zmienne, które będziemy używać w dalszej części skryptu. Dzięki temu łatwiej będzie zmieniać parametry maszyny.
 ```bash
@@ -24,3 +24,13 @@ ADMIN_USERNAME="azureuser"
 ADMIN_PASSWORD="TwojeHasło123!" # Używane w przypadku VM Windows lub loginu z hasłem
 SSH_KEY_PATH="~/.ssh/id_rsa.pub" # Ścieżka do pliku z kluczem publicznym (dla VM Linux)
 ```
+## Krok 3: Stwórz grupę zasobów
+
+```bash
+az group create --name $RESOURCE_GROUP --location $LOCATION
+```
+## Krok 4: Utwórz sieć wirtualną i podsieć
+``` bash
+az network vnet create --resource-group $RESOURCE_GROUP --name "${VM_NAME}VNet" --subnet-name "${VM_NAME}Subnet"
+```
+## Krok 5: Utwórz interfejs sieciowy (NIC)
