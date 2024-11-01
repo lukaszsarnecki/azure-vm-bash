@@ -76,3 +76,41 @@ az vm open-port --port 22 --resource-group $RESOURCE_GROUP --name $VM_NAME
 ```bash
 az vm open-port --port 3389 --resource-group $RESOURCE_GROUP --name $VM_NAME
 ```
+## Krok 8: Uzyskaj informacje o maszynie wirtualnej
+Na końcu warto sprawdzić publiczny adres IP maszyny:
+```bash
+az vm list-ip-addresses --resource-group $RESOURCE_GROUP --name $VM_NAME --output table
+```
+
+### Przykładowy kompletny skrypt Bash
+Oto pełny skrypt, który można uruchomić, aby stworzyć maszynę wirtualną w Azure:
+```bash
+#!/bin/bash
+
+# Zmienne
+RESOURCE_GROUP="myResourceGroup"
+LOCATION="westeurope"
+VM_NAME="myVM"
+VM_IMAGE="UbuntuLTS"
+VM_SIZE="Standard_B1s"
+ADMIN_USERNAME="azureuser"
+SSH_KEY_PATH="~/.ssh/id_rsa.pub"
+
+# Tworzenie grupy zasobów
+az group create --name $RESOURCE_GROUP --location $LOCATION
+
+# Tworzenie sieci wirtualnej i podsieci
+az network vnet create --resource-group $RESOURCE_GROUP --name "${VM_NAME}VNet" --subnet-name "${VM_NAME}Subnet"
+
+# Tworzenie interfejsu sieciowego
+az network nic create --resource-group $RESOURCE_GROUP --vnet-name "${VM_NAME}VNet" --subnet "${VM_NAME}Subnet" --name "${VM_NAME}NIC"
+
+# Tworzenie maszyny wirtualnej
+az vm create --resource-group $RESOURCE_GROUP --name $VM_NAME --nics "${VM_NAME}NIC" --image $VM_IMAGE --size $VM_SIZE --admin-username $ADMIN_USERNAME --ssh-key-value $SSH_KEY_PATH
+
+# Otwieranie portu SSH (dla VM z Linux)
+az vm open-port --port 22 --resource-group $RESOURCE_GROUP --name $VM_NAME
+
+# Wyświetlenie publicznego adresu IP
+az vm list-ip-addresses --resource-group $RESOURCE_GROUP --name $VM_NAME --output table
+```
