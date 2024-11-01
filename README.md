@@ -1,1 +1,1 @@
-# azure-vm-basah
+# azure-vm-bash
