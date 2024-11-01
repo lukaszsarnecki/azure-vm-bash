@@ -20,7 +20,7 @@ Najpierw zdefiniujmy zmienne, które będziemy używać w dalszej części skryp
 RESOURCE_GROUP="myResourceGroup"
 LOCATION="westeurope"
 VM_NAME="myVM"
-VM_IMAGE="UbuntuLTS"   # Możesz zmienić na inny obraz, np. "Win2019Datacenter, listę obrazów można sprawdzić komendą #### az vm image list"
+VM_IMAGE="UbuntuLTS"   # Możesz zmienić na inny obraz, np. "Win2019Datacenter, listę obrazów można sprawdzić komendą: az vm image list"
 VM_SIZE="Standard_B1s" # Inny rozmiar np. "Standard_DS1_v2"
 ADMIN_USERNAME="azureuser"
 ADMIN_PASSWORD="TwojeHasło123!" # Używane w przypadku VM Windows lub loginu z hasłem
